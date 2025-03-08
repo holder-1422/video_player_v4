@@ -38,6 +38,20 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+# Ignore node_modules and build artifacts
+node_modules/
+build/
+
+# Ignore videos and images
+src/assets/videos/
+src/assets/images/
+
+# Ignore Electron binary files
+electron/dist/
+*.exe
+*.app
+
+
 # Dependency directories
 node_modules/
 jspm_packages/
