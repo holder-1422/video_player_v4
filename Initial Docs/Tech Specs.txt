@@ -16,29 +16,6 @@ This document outlines the technical architecture and development plan for a sta
 - **Electron Store** (to save user progress, if needed)
 - **React Router** (for managing scene transitions within Electron)
 
----
-## 3. Project Structure
-```
-/branching-video-app
-├── public/
-│   ├── index.html  # Main HTML file for Electron
-├── src/
-│   ├── components/
-│   │   ├── VideoPlayer.js  # Core video playback component
-│   │   ├── ChoiceOverlay.js  # Displays choices as buttons
-│   │   ├── TemporaryChoice.js  # Handles temporary choices
-│   │   ├── SceneManager.js  # Controls scene transitions
-│   ├── assets/
-│   │   ├── videos/  # All video files
-│   │   ├── images/  # Choice thumbnails
-│   ├── config/
-│   │   ├── config.yaml  # Scene and choice structure
-│   ├── App.js  # Main React component
-│   ├── main.js  # Electron entry point
-├── package.json  # Dependencies and scripts
-├── electron-builder.json  # Windows packaging settings
-```
----
 ## 4. Functional Requirements
 ### 4.1 Video Playback
 - Load and play video files as specified in `config.yaml`.
