@@ -1,0 +1,145 @@
+project:
+  name: My Interactive Video
+  version: "1.0"
+
+settings:
+  default_volume: "80"
+  default_resolution: "1080"
+  
+start: s1.1
+
+scenes:
+  s1.1:
+    type: question
+    video: videos/video1.mp4
+    heading: "Choose your adventure:"
+    choices:
+      Choice_1:
+        text: "Scene 1 Option 1"
+        next: s1.3
+        image: images/q1.jpg
+      Choice_2:
+        text: "Scene 2 Option 2"
+        next: s3.1
+        image: images/q1.jpg
+    temporary_choices:
+      Temporary_1:
+        text: "Interrupt Option"
+        next: i1.1
+        image: images/m2.jpg
+      Temporary_2:
+        text: "Interrupt Option 2"
+        next: i1.2
+        image: images/m1.jpg
+
+  s1.3:
+    type: main
+    video: videos/video2.mp4
+    heading: "Exploring the new environment"
+    next: s1.4
+    main_scene_choices: scene_set_1
+
+  s1.4:
+    type: main
+    video: videos/video3.mp4
+    heading: "Navigating through obstacles"
+    next: s1.5
+    main_scene_choices: scene_set_1
+    temporary_choices:
+      Temporary_1:
+        text: "Temporary Interrupt Option"
+        next: i1.4.1
+        image: images/m1.jpg
+
+  s1.5:
+    type: main
+    video: videos/video5.mp4
+    heading: "A challenging decision ahead"
+    next: s1.6
+    main_scene_choices: scene_set_1
+
+  s1.6:
+    type: main
+    video: videos/video1.mp4
+    heading: "Making your final choice"
+    next: s1.3
+    main_scene_choices: scene_set_1
+
+  s2.1:
+    type: continue
+    video: videos/video2.mp4
+    next: s3.1
+    heading: "You took the left path. Watch out for surprises!"
+    temporary_choices:
+      Temporary_1:
+        text: "Scene 2 Interrupt 1"
+        next: is2.1.3
+        image: images/m1.jpg
+      Temporary_2:
+        text: "Scene 2 Interrupt 2"
+        next: is2.1.4
+        image: images/m2.jpg
+
+  s3.1:
+    type: question
+    video: videos/video3.mp4
+    heading: "You're on the right path, where to next?"
+    choices:
+      Choice_1:
+        text: "Head to the Mountain"
+        next: s4.1
+        image: images/q2.jpg
+      Choice_2:
+        text: "Go to Scene 5.1"
+        next: s5.1
+        image: images/q1.jpg
+
+  s4.1:
+    type: continue
+    video: videos/video4.mp4
+    heading: "You are now climbing the mountain!"
+    next: s5.1
+
+  s5.1:
+    type: question
+    video: videos/video5.mp4
+    heading: "You encountered a wild animal. What will you do?"
+    choices:
+      Choice_1:
+        text: "Run Away"
+        next: s7.1
+        image: images/q2.jpg
+      Choice_2:
+        text: "Try to Calm It"
+        next: s7.1
+        image: images/q4.jpg
+
+  s6.1:
+    type: continue
+    video: videos/video1.mp4
+    heading: "Enjoy this bonus content!"
+    next: s7.1
+
+  s7.1:
+    type: continue
+    video: videos/video2.mp4
+    heading: "Thank you for playing!"
+
+main_scene_choices:
+  scene_set_1:
+    Choice_1:
+      text: "Main Scene 1"
+      next: s1.3
+      image: images/m1.jpg
+    Choice_2:
+      text: "Main Scene 2"
+      next: s1.4
+      image: images/m2.jpg
+    Choice_3:
+      text: "Main Scene 3"
+      next: s1.5
+      image: images/m3.jpg
+    Choice_4:
+      text: "Main Scene 4"
+      next: s1.6
+      image: images/m4.jpg

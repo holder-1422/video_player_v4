@@ -1,0 +1,136 @@
+# Technical Specification Document for Interactive Branching Video Player
+
+## 1. Overview
+This document outlines the technical architecture and development plan for a standalone interactive video player application using **Electron + React + Video.js**. The application will allow users to interact with branching storylines as defined in a **YAML configuration file**.
+
+---
+## 2. Technology Stack
+### Core Technologies:
+- **Electron.js** (for packaging as a standalone Windows app)
+- **React.js** (for UI and interactivity)
+- **Video.js** (for video playback)
+- **YAML.js** (for parsing `config.yaml` and handling scene flow)
+
+### Additional Tools:
+- **electron-builder** (to package the app as an EXE for Windows 11)
+- **Electron Store** (to save user progress, if needed)
+- **React Router** (for managing scene transitions within Electron)
+
+---
+## 3. Project Structure
+```
+/branching-video-app
+├── public/
+│   ├── index.html  # Main HTML file for Electron
+├── src/
+│   ├── components/
+│   │   ├── VideoPlayer.js  # Core video playback component
+│   │   ├── ChoiceOverlay.js  # Displays choices as buttons
+│   │   ├── TemporaryChoice.js  # Handles temporary choices
+│   │   ├── SceneManager.js  # Controls scene transitions
+│   ├── assets/
+│   │   ├── videos/  # All video files
+│   │   ├── images/  # Choice thumbnails
+│   ├── config/
+│   │   ├── config.yaml  # Scene and choice structure
+│   ├── App.js  # Main React component
+│   ├── main.js  # Electron entry point
+├── package.json  # Dependencies and scripts
+├── electron-builder.json  # Windows packaging settings
+```
+---
+## 4. Functional Requirements
+### 4.1 Video Playback
+- Load and play video files as specified in `config.yaml`.
+- Allow user to **pause, play, and seek** within videos.
+- Video player should take up the **entire size of the application window**, with the ability to **resize or maximize** to fit the screen.
+- No borders or frames around the video.
+
+### 4.2 Scene Transitions
+- Load the **start scene** dynamically from `config.yaml`.
+- Transition to the **next scene** when a user makes a choice.
+- If a **temporary choice** is selected, pause the base scene, play an **interrupt video**, then return to the **exact point** in the base scene.
+- **Multiple temporary choices can be selected in succession.** The user can click on multiple temporary choices, including repeating the same one, before resuming the base scene.
+
+### 4.3 UI Elements
+#### Choice Buttons:
+- **Question Scene Choices:**
+  - Appear **after** the video stops playing.
+  - Displayed **horizontally at the center** of the video player (not below it).
+  - **Vertically centered** within the video player.
+  - Each choice has an **image** and **text below the image**.
+  - Floating heading above all choices.
+  - Each button is **separately overlaid** (not connected together).
+
+- **Temporary Choices:**
+  - Appear **immediately** when the scene starts.
+  - Positioned **on the top-right corner** of the video player, **stacked vertically from top to bottom**.
+  - Each choice has an **image**, with text either **overlaid** or **below the image**.
+  - Each button is **separately overlaid**.
+  - When selected, the **base scene video pauses** and resumes exactly where it left off when the temporary scene finishes.
+  - **All temporary choices remain visible after selection**, allowing the user to select multiple temporary choices in a row before returning to the base scene.
+  - The user can select the same temporary choice multiple times if desired.
+
+- **Main Choices:**
+  - Always visible while the scene's video is playing.
+  - Positioned **in the lower-left corner of the video player** (not outside of it), displayed **horizontally moving right**.
+  - Styled **similarly to temporary buttons**, but **in a different location**.
+
+- **Button Effects:**
+  - No fade-in effects initially, but could be implemented later as a stretch goal.
+
+### 4.4 Scene Title & Descriptions
+- Scene title does **not** need to be overlaid on the video.
+- The **top bar of the application** should display the scene title after the app name.
+- No scene description is needed below the video.
+
+### 4.5 State Management
+- Track current scene and update UI accordingly.
+- Optionally save progress so users can resume where they left off.
+
+### 4.6 Configuration Parsing
+- Load `config.yaml` and dynamically create scenes based on its structure.
+- Handle different scene types (`question`, `continue`, `main`).
+
+---
+## 5. Scene Flow Example
+### Example Scene from `config.yaml`
+```yaml
+s1.1:
+  type: question
+  video: videos/video1.mp4
+  heading: "Choose your adventure:"
+  choices:
+    Choice_1:
+      text: "Scene 1 Option 1"
+      next: s1.3
+      image: images/q1.jpg
+    Choice_2:
+      text: "Scene 2 Option 2"
+      next: s3.1
+      image: images/q1.jpg
+```
+### How This is Handled in Code
+- `SceneManager.js` reads `config.yaml`.
+- `VideoPlayer.js` loads `videos/video1.mp4`.
+- `ChoiceOverlay.js` displays buttons with labels from `choices`.
+- When a button is clicked, `SceneManager.js` loads the **next scene** (`s1.3` or `s3.1`).
+
+---
+## 6. UI/UX Layout
+### Wireframe
+![Wireframe Layout](file:///mnt/data/updated_wireframe.png)
+
+### Choice Display Timing
+- **Question Scenes** → Choices appear when the video **ends**, centered within the video player both **horizontally and vertically**.
+- **Temporary Choices** → Appear **immediately at the top-right of the video player** and pause the base scene when selected. Multiple temporary choices can be selected in succession before returning to the base scene.
+- **Main Choices** → Always visible within the **lower-left** of the video player.
+
+---
+### **Color Scheme**
+- **Dark mode** as default.
+- **Burnt orange accents** for highlighting buttons or key elements.
+
+---
+### **Next Steps: Finalize UI Design & Development** 🚀
+
