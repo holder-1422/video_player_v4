@@ -45,6 +45,8 @@ build/
 # Ignore videos and images
 src/assets/videos/
 src/assets/images/
+/videos
+/images
 
 # Ignore Electron binary files
 electron/dist/
